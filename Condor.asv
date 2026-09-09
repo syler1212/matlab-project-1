@@ -10,7 +10,7 @@ AdR = 0.086; % Adult Death Rate
 PsR = 1 - PdR; % survival Rate for Pre-Adults
 AsR = 1 - AdR; % survival Rate for Adults
 num_years = 50; % simulation time in years
-t = 1: num_years;
+t = 0: num_years;
 
 % Define arrays and fill with 0's ahead of time to pre-allocate space
 %arrays start at 1 in matlab not 0... odd
