@@ -20,7 +20,7 @@ keepRate = 1 - releaseRate; % the keep rate of juvy condors
 
 adultMortalityRate = 0.086; % adult mortality rate
 juvenileMortalityRate = 0.086; % juv mortality rate
-year1MortalityRate = 0.138;
+year1MortalityRate = 0.086;
 juvenileSurvivalRate = 1 - juvenileMortalityRate; % juv survival rate
 adultSurvivalRate = 1 - adultMortalityRate; % adult survival rate
 year1SurvivalRate = 1 - year1MortalityRate;
@@ -61,12 +61,22 @@ WY8 = zeros(1, num_years);
 WA  = zeros(1, num_years);
 
 % setting initial conditions
+% initial conditions derived from 2022 population data
+% https://www.nps.gov/articles/000/caco-world-2022.htm
+% initial conditions assume all wild condors can breed together,
+% which is not necessarily the case.
 
-Y5(1) = 20;
-Y6(1) = 20;
-WY5(1) = 2;
-WY6(1) = 2;
-
+Y0(1) = 44;
+Y1(1) = 39;
+Y2(1) = 7;
+Y3(1) = 8;
+Y4(1) = 7;
+Y5(1) = 8;
+Y6(1) = 7;
+Y7(1) = 8;
+A(1) = 86;
+% Actual wild population is over our assumed carrying capacity, so start
+% our simulation assuming no wild Condors.
 
 for yr = 2: num_years
     
