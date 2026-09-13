@@ -10,7 +10,34 @@
 \maketitle
 
 \section{Introduction}
-
+The California condor is a large scavenger native to the southwestern United States, 
+identified by its 9 $\frac12$ foot wingspan and bald pink head. 
+Scavenging birds such as these play a critical part in their native ecosystems, 
+preventing the spread of disease by disposing of carrion before deadly bacteria 
+are exposed to the environment.  Despite their presence in the United States for 
+thousands of years, the introduction of the insecticide DDT in the 20$^{th}$ 
+century caused their numbers to plummet to the tens by the 1980's. To prevent 
+extinction, all 22 of the estimated birds remaining in the wild were captured and 
+allowed to breed in captivity, where their numbers were gradually able to increase 
+enough to begin reintroduction back into their native mountain ranges. 
+\\
+\\
+In the wild, California condors breed slowly and deliberately. After reaching 
+sexual maturity at around 8 years of age, a mating pair will produce a single egg 
+that is incubated for around 6 months. After hatching, it will be dependent on its 
+parents for another year. Even after leaving its parents, wild condors still face many  
+from natural and man-made threats, leading to high rates of mortality. In captivity however, 
+researchers have been able to increase the productivity rate of mating pairs through a process 
+called double-clutching. During this process, the first egg produced by a mating pair is taken 
+and cared for by researchers before being introduced to its natural habitat. Without viable offspring,
+the mating pair will often try again, doubling the number of young produced in a year. 
+\\
+\\
+In this paper, we create a model of changing condor populations in the wild and in captivity 
+with and without double clutching. Our model takes into account condor age, productivity, 
+mortality, and the differences in these between captive and wild birds. In developing this model, 
+we hope to better understand the factors that impact changes to condor populations, and the impacts 
+of repopulation efforts on condor numbers in captivity and in the wild. 
 \section{Methods}
 
 \section{Analysis}
