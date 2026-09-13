@@ -1,0 +1,20 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\title{Modeling and Simulation Project 1}
+\author{}
+\date{September 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+\section{Methods}
+
+\section{Analysis}
+
+\section{Conclusions}
+
+\end{document}
