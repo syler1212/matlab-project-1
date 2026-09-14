@@ -18,9 +18,9 @@ t = 1: num_years;
 releaseRate = 0.8; % the release rate
 keepRate = 1 - releaseRate; % the keep rate of juvy condors
 
-adultMortalityRate = 0.086; % adult mortality rate
-juvenileMortalityRate = 0.086; % juv mortality rate
-year1MortalityRate = 0.086;
+adultMortalityRate = 0.069; % adult mortality rate
+juvenileMortalityRate = 0.138; % juv mortality rate
+year1MortalityRate = 0.138;
 juvenileSurvivalRate = 1 - juvenileMortalityRate; % juv survival rate
 adultSurvivalRate = 1 - adultMortalityRate; % adult survival rate
 year1SurvivalRate = 1 - year1MortalityRate;
@@ -96,17 +96,6 @@ for yr = 2: num_years
         
         adultsEligibleToReproduce = A(yr-1) / 2; %assume 50% of adults are female
 
-        %If we're not double clutching, we have to subtract the adults
-        %eligible to reproduce by the number of year 0 chicks, to account
-        %for adults that are busy raising chicks and won't reproduce that
-        %year. If we are double-clutching, then this number is
-        %approximately halved since human handlers are manually raising half of the
-        %chicks on any given year
-        if doubleClutching == true
-            adultsEligibleToReproduce = adultsEligibleToReproduce - (Y0(yr-1)/2);
-        else
-            adultsEligibleToReproduce = adultsEligibleToReproduce - Y0(yr-1);
-        end
         Y0(yr) = (adultsEligibleToReproduce * captiveBirthRate);  % just born
         
         Y1(yr) = Y0(yr-1);         % living out their first year, no release, birth rate accounts for first-year mortality
@@ -122,8 +111,6 @@ for yr = 2: num_years
         %wild condors
     
         wildadultsEligibleToReproduce = WA(yr-1) / 2;  %assume 50% of adults are female
-        %see note on line 89. No double-clutching in the wild.
-        wildadultsEligibleToReproduce = wildadultsEligibleToReproduce - WY0(yr-1);
         WY0(yr) = (wildadultsEligibleToReproduce * wildBirthRate * wildCarryingCapacity);  % just born
     
         WY1(yr) = WY0(yr-1);         
@@ -141,12 +128,6 @@ for yr = 2: num_years
         %otherwise, captive population has reached capacity - release all
         %juveniles to the wild
         adultsEligibleToReproduce = A(yr-1) / 2;  % assume 50% of adults are female
-        %see note above on line 89
-        if doubleClutching == true
-            adultsEligibleToReproduce = adultsEligibleToReproduce - (Y0(yr-1)/2);
-        else
-            adultsEligibleToReproduce = adultsEligibleToReproduce - Y0(yr-1);
-        end
         Y0(yr) = (adultsEligibleToReproduce * captiveBirthRate);  % just born
         Y1(yr) = Y0(yr-1);         % living out their first year, no release
         Y2(yr) = 0;   % start of pre-adult years
@@ -158,8 +139,6 @@ for yr = 2: num_years
         A(yr) = A(yr-1) * adultSurvivalRate + Y6(yr-1) * juvenileSurvivalRate;  % adults
         %wild condors
         wildadultsEligibleToReproduce = WA(yr-1) / 2;  % assume 50% of adults are female
-        %see note on line 89. No double-clutching in the wild.
-        wildadultsEligibleToReproduce = wildadultsEligibleToReproduce - WY0(yr-1);
         WY0(yr) = (wildadultsEligibleToReproduce * wildBirthRate * wildCarryingCapacity);  % just born
         WY1(yr) = WY0(yr-1);         % living out their first year, no release
         WY2(yr) = WY1(yr-1) * year1SurvivalRate + (Y1(yr-1) * year1SurvivalRate);   % start of juv years
@@ -192,19 +171,22 @@ Wildcap = 400;
 
 [t, Wjuveniles, Wadults, Wtotal, Cjuveniles, Cadults, Ctotal, TotalBirds] = runCondorModel();
 figure;
-plot(t, Ctotal, 'Color', '#034473', 'LineWidth', 1.5); hold on;
-plot(t, Wtotal,'Color',  '#a32900', 'LineWidth', 1.5);
-plot(t, Cadults, 'b', 'LineWidth', 1.2);
-plot(t, Wadults, 'r', 'LineWidth', 1.2);
-plot(t,Cjuveniles, 'c', 'LineWidth',1.2);
-plot(t,Wjuveniles, 'm', 'LineWidth',1.2);
+hold on;
 plot(t, TotalBirds, 'g', 'LineWidth', 1.8);
-yline(Captivecap,'--c', 'LineWidth', 2.5);
+plot(t, Ctotal, 'Color', '#052F73', 'LineWidth', 1.5);
+plot(t, Cadults, 'b', 'LineWidth', 1.2);
+plot(t,Cjuveniles, 'c', 'LineWidth',1.2);
+
+plot(t, Wtotal,'Color',  '#052f73', 'LineWidth', 1.5, 'LineStyle', '--');
+plot(t, Wadults, '--b', 'LineWidth', 1.2);
+plot(t,Wjuveniles, '--c', 'LineWidth',1.2);
+
+yline(Captivecap,'--k', 'LineWidth', 2.5);
 yline(Wildcap,'--r', 'LineWidth', 2.5);
 grid on;
 
-legend('Captive Total', 'Wild Total', 'Captive Adults', 'Wild Adults', 'Captive Juveniles', 'Wild Juveniles','TotalBirds','Captivecap', 'Wildcap', 'Location', 'northwest');
+legend('Total Birds', 'Captive Total', 'Captive Adults', 'Captive Juveniles', 'Wild Total', 'Wild Adults','Wild Juveniles','Captivecap', 'Wildcap', 'Location', 'northwest');
 xlabel('Years');
-ylabel('Number of Female Condors');
+ylabel('Condor Population');
 title('Captive and Wild Condor Populations (Project 3)');
 
