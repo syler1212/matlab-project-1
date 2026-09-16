@@ -1,0 +1,205 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{titlesec}
+\usepackage{float}
+
+% Full-width line below every section title
+\titleformat{\section}
+  {\normalfont\Large\bfseries}
+  {\thesection}{1em}
+  {}
+  [{\titlerule[0.8pt]}]
+
+% Embedded Bibliography
+\begin{filecontents*}{\jobname.bib}
+@book{shiflet2014,
+  author    = {Angela B. Shiflet and George W. Shiflet},
+  title     = {Introduction to Computational Science: Modeling and Simulation for the Sciences},
+  edition   = {2nd},
+  publisher = {Princeton University Press},
+  year      = {2014},
+  address   = {Princeton, NJ}
+}
+
+\end{filecontents*}
+
+\title{Modeling and Simulation Project 3: Captive and Wild Condor Populations}
+\author{}
+\date{September 2026}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+The California condor is a large scavenger native to the southwestern United States, identified by its $9\frac{1}{2}$ foot wingspan and bald pink head. Scavenging birds such as these play a critical part in their native ecosystems, preventing the spread of disease by disposing of carrion before deadly bacteria are exposed to the environment. Despite their presence in the United States for thousands of years, the introduction of the insecticide DDT in the $20^{\text{th}}$ century caused their numbers to plummet to the tens by the 1980's. To prevent extinction, all 22 of the estimated birds remaining in the wild were captured and allowed to breed in captivity, where their numbers were gradually able to increase enough to begin reintroduction back into their native mountain ranges.
+
+In the wild, California condors breed slowly and deliberately. After reaching sexual maturity at around 8 years of age, a mating pair will produce a single egg that is incubated for around 6 months. After hatching, it will be dependent on its parents for another year. Even after leaving its parents, wild condors still face many natural and man-made threats, leading to high rates of mortality \cite{ref_condor_demographics}. In captivity however, researchers have been able to increase the productivity rate of mating pairs through a process called double-clutching. During this process, the first egg produced by a mating pair is taken and cared for by researchers before being introduced to its natural habitat. Without viable offspring, the mating pair will often try again, doubling the number of young produced in a year.
+
+In this paper, we create a system dynamics model of changing condor populations in the wild and in captivity with and without double-clutching. Our model takes into account condor age structure, productivity, mortality, and the carrying capacities of captive and wild environments. In developing this model, we examine the viability of repopulation efforts under varying mortality and release conditions.
+
+\section{Methodology}
+
+\subsection{Numerical Integration Methods}
+The demographic system is evaluated using the Forward Euler numerical integration technique with a discrete step size of $\Delta t = 1\text{ yr}$. For any stage variable governed by $\frac{dY}{dt} = \text{Inflow} - \text{Outflow}$, the value at the subsequent annual increment is computed as:
+\begin{equation}
+Y(t + \Delta t) = Y(t) + \Delta t \left(\text{Inflow}(t) - \text{Outflow}(t)\right)
+\end{equation}
+Because biological cohorts graduate between single-year age brackets annually, an integer time step of $\Delta t = 1$ ensures individual cohorts progress systematically across successive stages.
+
+\subsection{Captive Subpopulation Dynamics}
+Captive condor pairs operating under double-clutching achieve a fecundity rate of $f_{\text{cap}} = 1.8\text{ yr}^{-1}$, corresponding to an individual rate of $m_{\text{cap}} = 0.9\text{ yr}^{-1}$ assuming an equal sex ratio. Captive birds reach reproductive maturity at age 7 ($Y_{A,\text{cap}}$).
+
+The differential equations governing each captive age cohort are:
+\begin{align}
+\frac{dY_{0,\text{cap}}}{dt} &= m_{\text{cap}} Y_{A,\text{cap}}(t) - Y_{0,\text{cap}}(t) \\
+\frac{dY_{1,\text{cap}}}{dt} &= (1 - d_0) Y_{0,\text{cap}}(t) - Y_{1,\text{cap}}(t) \\
+\frac{dY_{2,\text{cap}}}{dt} &= (1 - r(t))(1 - d_1) Y_{1,\text{cap}}(t) - Y_{2,\text{cap}}(t) \\
+\frac{dY_{k,\text{cap}}}{dt} &= (1 - d_I) Y_{k-1,\text{cap}}(t) - Y_{k,\text{cap}}(t) \quad \text{for } k = 3, 4, 5, 6 \\
+\frac{dY_{A,\text{cap}}}{dt} &= (1 - d_I) Y_{6,\text{cap}}(t) - d_A Y_{A,\text{cap}}(t)
+\end{align}
+
+The release fraction $r(t)$ controls juvenile transfers to the wild. If total captive occupancy exceeds the facility limit of 150 birds, all Year 1 juveniles are released:
+\begin{equation}
+r(t) = \begin{cases} 
+0.80, & \text{if } N_{\text{cap}}(t) \le 150 \\
+1.00, & \text{if } N_{\text{cap}}(t) > 150 
+\end{cases}
+\end{equation}
+where $N_{\text{cap}}(t) = \sum_{k=0}^{6} Y_{k,\text{cap}}(t) + Y_{A,\text{cap}}(t)$.
+
+\subsection{Wild Subpopulation Dynamics and Reintroduction}
+Wild condors reproduce at a base fecundity of $f_{\text{wild}} = 0.3729\text{ yr}^{-1}$ per pair ($m_{\text{wild}} = 0.18645\text{ yr}^{-1}$ per adult) and reach breeding maturity at age 8 ($Y_{A,\text{wild}}$). Natural reproduction is subject to an environmental carrying capacity of 400 birds:
+\begin{align}
+\frac{dY_{0,\text{wild}}}{dt} &= m_{\text{wild}} Y_{A,\text{wild}}(t)\left(1 - \frac{N_{\text{wild}}(t)}{400}\right) - Y_{0,\text{wild}}(t) \\
+\frac{dY_{1,\text{wild}}}{dt} &= (1 - d_0) Y_{0,\text{wild}}(t) - Y_{1,\text{wild}}(t)
+\end{align}
+where $N_{\text{wild}}(t) = \sum_{k=0}^{7} Y_{k,\text{wild}}(t) + Y_{A,\text{wild}}(t)$.
+
+The wild 2-year-old cohort ($Y_{2,\text{wild}}$) receives both native Year 1 survivors and the released captive Year 1 cohort:
+\begin{align}
+\frac{dY_{2,\text{wild}}}{dt} &= (1 - d_1) Y_{1,\text{wild}}(t) + r(t)(1 - d_1) Y_{1,\text{cap}}(t) - Y_{2,\text{wild}}(t) \\
+\frac{dY_{k,\text{wild}}}{dt} &= (1 - d_I) Y_{k-1,\text{wild}}(t) - Y_{k,\text{wild}}(t) \quad \text{for } k = 3, 4, 5, 6, 7 \\
+\frac{dY_{A,\text{wild}}}{dt} &= (1 - d_I) Y_{7,\text{wild}}(t) - d_A Y_{A,\text{wild}}(t)
+\end{align}
+
+\section{Results and Analysis}
+
+\subsection{Scenario A: Uniform Low Mortality Across All Cohorts}
+In this baseline scenario, Year 1 juveniles, immatures, and adults all experience an identical annual mortality rate of $d_1 = d_I = d_A = 0.086$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graph.png}
+    \caption{Captive and wild condor population trajectories over 50 years under baseline uniform mortality ($d_1 = d_I = d_A = 0.086$).}
+    \label{fig:scenario_a}
+\end{figure}
+
+% Insert discussion and plot for Scenario A:
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{scenario_a.png}
+%     \caption{50-year population projection for captive and wild condors under uniform mortality ($d_1 = d_I = d_A = 0.086$).}
+% \end{figure}
+
+\subsection{Scenario B: Moderate Juvenile/Immature and Low Adult Mortality}
+Here, Year 1 and immature condors experience an elevated mortality rate of $d_1 = d_I = 0.138$, while mature adult condors experience half that rate at $d_A = 0.069$.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graph.png}
+    \caption{Captive and wild condor population trajectories over 50 years under baseline uniform mortality ($d_1 = d_I = d_A = 0.086$).}
+    \label{fig:scenario_a}
+\end{figure}
+% Insert discussion and plot for Scenario B:
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{scenario_b.png}
+%     \caption{50-year population projection with $d_1 = d_I = 0.138$ and $d_A = 0.069$.}
+% \end{figure}
+
+\subsection{Scenario C: High Juvenile Mortality (Bearded Vulture Baseline)}
+Drawing from field findings by Bustamante (1996), Year 1 mortality is set to $d_1 = 0.659$ ($65.9\%$), while immature and adult mortalities are held at $d_I = d_A = 0.086$ \cite{ref_vulture_study}.
+
+% Insert discussion and plot for Scenario C:
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{scenario_c.png}
+%     \caption{50-year population projection under Bustamante (1996) juvenile mortality ($d_1 = 0.659$, $d_I = d_A = 0.086$).}
+% \end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graph.png}
+    \caption{Captive and wild condor population trajectories over 50 years under baseline uniform mortality ($d_1 = d_I = d_A = 0.086$).}
+    \label{fig:scenario_a}
+\end{figure}
+
+
+
+\subsection{Scenario D: High Juvenile, Moderate Immature, and Low Adult Mortality}
+This case combines the severe first-year juvenile mortality of $d_1 = 0.659$ with an immature rate of $d_I = 0.138$ and an adult rate of $d_A = 0.069$.
+
+% Insert discussion and plot for Scenario D:
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{scenario_d.png}
+%     \caption{50-year population projection with $d_1 = 0.659$, $d_I = 0.138$, and $d_A = 0.069$.}
+% \end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graph.png}
+    \caption{Captive and wild condor population trajectories over 50 years under baseline uniform mortality ($d_1 = d_I = d_A = 0.086$).}
+    \label{fig:scenario_a}
+\end{figure}
+
+
+
+\subsection{Scenario E: High Juvenile Mortality with Balanced Post-Year-1 Rates}
+Here, first-year mortality remains high at $d_1 = 0.659$, while immature and adult rates are balanced equally at $d_I = d_A = 0.099$.
+
+% Insert discussion and plot for Scenario E:
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{scenario_e.png}
+%     \caption{50-year population projection with $d_1 = 0.659$ and $d_I = d_A = 0.099$.}
+% \end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graph.png}
+    \caption{Captive and wild condor population trajectories over 50 years under baseline uniform mortality ($d_1 = d_I = d_A = 0.086$).}
+    \label{fig:scenario_a}
+\end{figure}
+
+
+
+\subsection{Scenario F: Five-Year Double-Clutching Intervention and Full Release}
+Operating under the demographic mortality rates of Scenario D ($d_1 = 0.659$, $d_I = 0.138$, $d_A = 0.069$), artificial double-clutching is maintained for only five years. Following year 5, double-clutching ceases and all remaining captive condors are returned to the wild. We compare the resulting wild population trajectory against the ongoing captive management in Scenario D.
+
+% Insert discussion and comparison plot for Scenario F vs. Scenario D:
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{scenario_f_comparison.png}
+%     \caption{Comparison of wild condor population over 50 years: ongoing captive reintroduction (Scenario D) versus 5-year cessation and total release (Scenario F).}
+% \end{figure}
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graph.png}
+    \caption{Captive and wild condor population trajectories over 50 years under baseline uniform mortality ($d_1 = d_I = d_A = 0.086$).}
+    \label{fig:scenario_a}
+\end{figure}
+
+
+\section{Conclusions}
+
+\bibliographystyle{plain}
+\bibliography{\jobname}
+
+\end{document}
