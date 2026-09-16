@@ -38,7 +38,24 @@ with and without double clutching. Our model takes into account condor age, prod
 mortality, and the differences in these between captive and wild birds. In developing this model, 
 we hope to better understand the factors that impact changes to condor populations, and the impacts 
 of repopulation efforts on condor numbers in captivity and in the wild. 
+
 \section{Methods}
+The goal of our model is to represent changing condor populations in captivity and in the wild under
+varying assumptions. The model was built using MATLAB and follows a constrained population growth model. 
+We assume initial populations of (NUMBER OF BIRDS). We assume equal male and female populations, that all 
+birds mate and attempt reproduction, and sexual maturity at 8 years for wild condors and 7 years in 
+captivity. We also assume fecundity rates of 1.8 and 0.9 in captivity with and without double clutching 
+respectively, and 0.3729 in the wild. To stimulate wild populations, 80$\%$ of captive condors aged 1 year are 
+released every year, however if the number of captive condors exceeds the carrying capacity of 150, all 
+juvenile birds are released into the wild. The carrying capacity for wild condors is set to be 400 birds. 
+\\
+\\
+We assume the following connected models for population growth between captive and wild condors. We 
+assign to stock variables captive and wild population numbers at every relevant year of age. The flow 
+variable between years for each model is growth, impacted by the ordinary variable of mortality rate. The 
+flow variables taking captive to wild birds for years 1 through 6 represent transfer of captive birds to the 
+wild. This transfer is informed by the ordinary variables of captive carrying capacity and rate of transfer.  
+
 
 \section{Analysis}
 
