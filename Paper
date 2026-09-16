@@ -48,8 +48,13 @@ captivity. We also assume fecundity rates of 1.8 and 0.9 in captivity with and w
 respectively, and 0.3729 in the wild. To stimulate wild populations, 80$\%$ of captive condors aged 1 year are 
 released every year, however if the number of captive condors exceeds the carrying capacity of 150, all 
 juvenile birds are released into the wild. The carrying capacity for wild condors is set to be 400 birds. 
-\\
-\\
+
+%Model diagram
+\begin{center}
+    
+\includegraphics[width=0.62\textwidth]{Model_diagram.jpeg}
+
+\end{center}
 We assume the following connected models for population growth between captive and wild condors. We 
 assign to stock variables captive and wild population numbers at every relevant year of age. The flow 
 variable between years for each model is growth, impacted by the ordinary variable of mortality rate. The 
