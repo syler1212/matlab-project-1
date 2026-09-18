@@ -111,9 +111,11 @@ In this baseline scenario, Year 1 juveniles, immatures, and adults experience a 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{PartA2022graph1.png}
-    \caption{Population trajectories over 50 years under baseline uniform mortality ($d_1 = d_I = d_A = 0.086$).}
-    \label{fig:scenario_a}
+    \includegraphics[width=0.48\textwidth]{PartA2022graph1.png}
+    \hfill
+    \includegraphics[width=0.48\textwidth]{PartB2022graph1.png}
+    \caption{Population trajectories over 50 years under baseline uniform mortality ($d_1 = d_I = d_A = 0.086$). Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
+    \label{fig:system_and_field}
 \end{figure}
 
 \subsection{Scenario B: Moderate Juvenile/Immature and Low Adult Mortality}
