@@ -44,11 +44,21 @@ Rr = 0.8;     % the release rate of juvenile condors
 ACMR = 0.069; % captive adult mortality rate
 AWMR = 0.069; % wild adult mortality rate
 % 
-ICMR = 0.659; % captive mortality rate for immature condors
-IWMR = 0.659; % wild mortality rate for immature condors
+ICMR = 0.138; % captive mortality rate for immature condors
+IWMR = 0.138; % wild mortality rate for immature condors
 % 
 JCMR = 0.138; % captive juvenile mortality rate
 JWMR = 0.138; % wild juvenile mortaltiy rate
+
+%Part D and F
+%ACMR = 0.069; % captive adult mortality rate
+%AWMR = 0.069; % wild adult mortality rate
+% 
+%ICMR = 0.659; % captive mortality rate for immature condors
+%IWMR = 0.659; % wild mortality rate for immature condors
+% 
+%JCMR = 0.138; % captive juvenile mortality rate
+%JWMR = 0.138; % wild juvenile mortaltiy rate
 
 
 %survival rates
@@ -106,17 +116,19 @@ WA  = zeros(1, num_years);
 % WY5(1) = 20;
 % WY6(1) = 20;
 
+% uncomment for 2022 captive population starting condition
+Y0(1) = 44/2;
+Y1(1) = 39/2;
+Y2(1) = 7/2;
+Y3(1) = 8/2;
+Y4(1) = 7/2;
+Y5(1) = 8/2;
+Y6(1) = 7/2;
+Y7(1) = 8/2;
+A(1) = 86/2;
 
-% Y0(1) = 44/2;
-% Y1(1) = 39/2;
-% Y2(1) = 7/2;
-% Y3(1) = 8/2;
-% Y4(1) = 7/2;
-% Y5(1) = 8/2;
-% Y6(1) = 7/2;
-% Y7(1) = 8/2;
-% A(1) = 86/2;
-A(1) = 22;
+% uncomment for 1987 starting condition
+% A(1) = 22;
 
 for yr = 2: num_years + 1
     
