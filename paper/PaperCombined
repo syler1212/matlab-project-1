@@ -111,9 +111,9 @@ In this baseline scenario, Year 1 juveniles, immatures, and adults experience a 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.48\textwidth]{PartA2022graph1.png}
+    \includegraphics[width=0.48\textwidth]{Fig_a_1987.png}
     \hfill
-    \includegraphics[width=0.48\textwidth]{PartB2022graph1.png}
+    \includegraphics[width=0.48\textwidth]{Fig_a_2022.png}
     \caption{Population trajectories over 50 years under baseline uniform mortality ($d_1 = d_I = d_A = 0.086$). Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
     \label{fig:system_and_field}
 \end{figure}
@@ -123,9 +123,11 @@ Year 1 and immature cohorts experience an elevated mortality rate of $d_1 = d_I 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{PartB2022graph1.png}
-    \caption{Population projection with elevated juvenile/immature mortality ($d_1 = d_I = 0.138, d_A = 0.069$).}
-    \label{fig:scenario_b}
+    \includegraphics[width=0.48\textwidth]{Fig_b_1987.png}
+    \hfill
+    \includegraphics[width=0.48\textwidth]{Fig_b_2022.png}
+    \caption{Population projection with elevated juvenile/immature mortality ($d_1 = d_I = 0.138, d_A = 0.069$). Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
+    \label{fig:system_and_field}
 \end{figure}
 
 \subsection{Scenario C: High Juvenile Mortality (Bearded Vulture Baseline)}
