@@ -135,9 +135,11 @@ Informed by empirical field data on large raptors \cite{bustamante1996}, first-y
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{PartC2022graph1.png}
-    \caption{50-year projection under high first-year mortality ($d_1 = 0.659, d_I = d_A = 0.086$).}
-    \label{fig:scenario_c}
+    \includegraphics[width=0.48\textwidth]{Fig_c_1987.png}
+    \hfill
+    \includegraphics[width=0.48\textwidth]{Fig_c_2022.png}
+    \caption{50-year projection under high first-year mortality ($d_1 = 0.659, d_I = d_A = 0.086$). Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
+    \label{fig:system_and_field}
 \end{figure}
 
 \subsection{Scenario D: High Juvenile, Moderate Immature, and Low Adult Mortality}
