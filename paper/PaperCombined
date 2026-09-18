@@ -147,30 +147,40 @@ This scenario pairs high first-year mortality ($d_1 = 0.659$) with moderate imma
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{PartD2022graph1.png}
-    \caption{Population projection under composite demographic stress ($d_1 = 0.659, d_I = 0.138, d_A = 0.069$).}
-    \label{fig:scenario_d}
+    \includegraphics[width=0.48\textwidth]{Fig_d_1987.png}
+    \hfill
+    \includegraphics[width=0.48\textwidth]{Fig_d_2022.png}
+    \caption{Population projection under composite demographic stress ($d_1 = 0.659, d_I = 0.138, d_A = 0.069$). Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
+    \label{fig:system_and_field}
 \end{figure}
 
 \subsection{Scenario E: High Juvenile Mortality with Balanced Post-Year-1 Rates}
 First-year mortality is held at $d_1 = 0.659$, while subsequent age classes share an intermediate mortality rate of $d_I = d_A = 0.099$.
 
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{PartE2022graph1.png}
-    \caption{50-year projection under high juvenile mortality with balanced subsequent rates ($d_1 = 0.659, d_I = d_A = 0.099$).}
-    \label{fig:scenario_e}
+    \includegraphics[width=0.48\textwidth]{Fig_e_1987.png}
+    \hfill
+    \includegraphics[width=0.48\textwidth]{Fig_e_2022.png}
+    \caption{50-year projection under high juvenile mortality with balanced subsequent rates ($d_1 = 0.659, d_I = d_A = 0.099$). Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
+    \label{fig:system_and_field}
 \end{figure}
 
 \subsection{Scenario F: Five-Year Double-Clutching Intervention and Full Release}
 Using the mortality parameters of Scenario D ($d_1 = 0.659, d_I = 0.138, d_A = 0.069$), double-clutching is terminated after Year 5, and all remaining captive individuals are permanently released into the wild.
 
+
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{PartF2022graph1.png}
-    \caption{Trajectory comparison between continuous captive management and complete release following Year 5 under Scenario D mortality.}
-    \label{fig:scenario_f}
+    \includegraphics[width=0.48\textwidth]{Fig_f_1987.png}
+    \hfill
+    \includegraphics[width=0.48\textwidth]{Fig_f_2022.png}
+    \caption{Trajectory comparison between continuous captive management and complete release following Year 5 under Scenario D mortality. Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
+    \label{fig:system_and_field}
 \end{figure}
+
 
 \section{Conclusions}
 The comparative simulations highlight the sensitivity of wild California condor recovery to juvenile survival and continued artificial management:
