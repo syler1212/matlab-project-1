@@ -43,12 +43,9 @@
 \section{Introduction}
 The California condor is a large scavenger native to the southwestern United States, identified by its $9\frac{1}{2}$-foot wingspan and bald pink head. Scavenging birds such as these play a critical part in their native ecosystems, preventing the spread of disease by disposing of carrion before deadly bacteria are exposed to the broader environment. Despite thriving in North America for thousands of years, the introduction of the insecticide DDT in the $20^{\text{th}}$ century caused their numbers to plummet into the tens by the 1980s. To prevent outright extinction, all 22 of the estimated birds remaining in the wild were captured and placed into captive breeding programs, where their numbers gradually recovered enough to permit managed reintroduction into their native mountain ranges.
 
-In the wild, California condors breed slowly and deliberately. After reaching sexual maturity at around 8 years of age, a mating pair produces a single egg that is incubated for approximately 6 months. After hatching, the chick remains dependent on its parents for another year. Even after fledgling independence, wild condors face severe natural and anthropogenic threats—such as lead poisoning from ammunition—leading to substantial mortality. 
+In the wild, California condors breed slowly and deliberately. After reaching sexual maturity at around eight years of age, a mating pair produces a single egg that is incubated for approximately six months. After hatching, the chick remains dependent on its parents for another year. Even after fledgling independence, wild condors face severe natural and anthropogenic threats—such as lead poisoning from ammunition—leading to substantial mortality. 
 
-In captivity, researchers accelerate the productivity of mating pairs through an intervention called \emph{double-clutching}. During this process, the first egg laid by a pair is removed and artificially incubated by researchers. Lacking viable offspring in the nest, the mating pair frequently lays a replacement egg, effectively doubling annual reproduction. 
-
-This paper develops a system dynamics model implemented in MATLAB to track coupled captive and wild condor populations across single-year age cohorts. We evaluate the impact of age structure, double-clutching, release quotas, environmental carrying capacities, and varying stage-specific mortality rates to assess the long-term viability of reintroduction programs.
-
+In captivity, researchers accelerate the productivity of mating pairs through an intervention called \emph{double-clutching}. During this process, the first egg laid by a pair is removed and artificially incubated by researchers. Lacking viable offspring in the nest, the mating pair frequently lays a replacement egg, effectively doubling annual reproduction. Currently, as a result of repopulation efforts the total number of California condors in the wild is estimated to be 369, according to a 2024 study NEEDS CITATION, a significant increase from 1987. 
 \section{Methodology}
 
 \subsection{System Dynamics Overview}
@@ -104,6 +101,9 @@ The wild 2-year-old cohort ($Y_{2,\text{wild}}$) receives both native Year 1 sur
 \frac{dY_{A,\text{wild}}}{dt} &= (1 - d_I) Y_{7,\text{wild}}(t) - d_A Y_{A,\text{wild}}(t)
 \end{align}
 
+\subsection{Assumptions and Initial Conditions}
+The goal of our model is to represent changing condor populations in captivity and in the wild under varying assumptions. The model was built using MATLAB and follows a constrained population growth model. We study two possible initial populations of birds, that from 1987 and from 2022. The 1980's population is assumed to be 22 captive adults, the estimated total number of wild condors at the time the repopulation program was implemented. The 2022 population includes 44 year zero, 39 year one, 7 year two, 8 year three, 7 year four, 8 year five, 7 year six, 8 year seven, and 86 adult birds. We assume equal male and female populations, that all birds mate and attempt reproduction, and that birds reach sexual maturity at eight years in the wild and seven years in captivity. We also assume fecundity rates of 1.8 and 0.9 in captivity with and without double clutching respectively, and 0.3729 in the wild. To stimulate wild populations, 80$\%$ of captive condors aged one year are released every year, however if the number of captive condors exceeds the carrying capacity of 150, all juvenile birds are released into the wild. The carrying capacity for wild condors is set to be 400 birds. Mortality rates are varied between models, as a result of the difficulty of their estimation. We assume uniform mortality rates between wild and captive birds, and range mortality from low to high. 
+
 \section{Results and Analysis}
 
 \subsection{Scenario A: Uniform Low Mortality Across All Cohorts}
@@ -117,6 +117,10 @@ In this baseline scenario, Year 1 juveniles, immatures, and adults experience a 
     \caption{Population trajectories over 50 years under baseline uniform mortality ($d_1 = d_I = d_A = 0.086$). Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
     \label{fig:system_and_field}
 \end{figure}
+
+Despite the low initial population, the higher captive birth rate as a result of double clutching causes the wild population to increase steadily over fifty years. The  number of pairs predicted by the model in 2022 is 165.64, for an estimated total wild population of 331.28. This generally agrees with current estimates for wild populations, though may suggest that true mortality rates are even lower, or differ more significantly between wild and captive birds. 
+\\
+In contrast, the higher initial populations seen in 2022 cause populations to very quickly exceed the carrying capacity, as seen in figure 2 (right). This indicates that current populations may be such that a repopulation program would not benefit wild birds, and may even cause populations to decline. 
 
 \subsection{Scenario B: Moderate Juvenile/Immature and Low Adult Mortality}
 Year 1 and immature cohorts experience an elevated mortality rate of $d_1 = d_I = 0.138$, while reproductive adults experience $d_A = 0.069$.
