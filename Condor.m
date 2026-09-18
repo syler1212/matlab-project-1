@@ -12,7 +12,7 @@ CR =  1.8/2; % The Female birth Rate assuming double clutching /2 for no double 
 
 WR = 0.3729/2; % wild female birth rate
 
-num_years = 200; % simulation time in years
+num_years = 50; % simulation time in years
 
 t = 0: num_years;
 
@@ -26,24 +26,26 @@ Rr = 0.8;     % the release rate of juvenile condors
 % year(1:6) captive immature, year(1:7) wild immature
 % year(7:t) captive adults, year(8:t) wild adults
 
-
-ACMR = 0.086; % captive adult mortality rate
-AWMR = 0.086; % wild adult mortality rate
-
-ICMR = 0.086; % captive mortality rate for immature condors
-IWMR = 0.086; % wild mortality rate for immature condors
-
-JCMR = 0.086; % captive juvenile mortality rate
-JWMR = 0.086; % wild juvenile mortaltiy rate
-% 
+% part A
 % ACMR = 0.086; % captive adult mortality rate
 % AWMR = 0.086; % wild adult mortality rate
 % 
 % ICMR = 0.086; % captive mortality rate for immature condors
 % IWMR = 0.086; % wild mortality rate for immature condors
 % 
-% JCMR = 0.1; % captive juvenile mortality rate
-% JWMR = 0.1; % wild juvenile mortaltiy rate
+% JCMR = 0.086; % captive juvenile mortality rate
+% JWMR = 0.086; % wild juvenile mortaltiy rate
+
+
+%Part B
+ACMR = 0.069; % captive adult mortality rate
+AWMR = 0.069; % wild adult mortality rate
+% 
+ICMR = 0.138; % captive mortality rate for immature condors
+IWMR = 0.138; % wild mortality rate for immature condors
+% 
+JCMR = 0.138; % captive juvenile mortality rate
+JWMR = 0.138; % wild juvenile mortaltiy rate
 
 
 %survival rates
@@ -96,11 +98,21 @@ WA  = zeros(1, num_years);
 
 % setting initial conditions
 
-Y5(1) = 20;
-Y6(1) = 20;
-WY5(1) = 20;
-WY6(1) = 20;
+% Y5(1) = 20;
+% Y6(1) = 20;
+% WY5(1) = 20;
+% WY6(1) = 20;
 
+
+Y0(1) = 44/2;
+Y1(1) = 39/2;
+Y2(1) = 7/2;
+Y3(1) = 8/2;
+Y4(1) = 7/2;
+Y5(1) = 8/2;
+Y6(1) = 7/2;
+Y7(1) = 8/2;
+A(1) = 86/2;
 
 for yr = 2: num_years + 1
     
@@ -182,11 +194,11 @@ Wildcap = 400/2;
 
 [t, Wjuveniles, Wadults, Wtotal, Cjuveniles, Cadults, Ctotal, TotalBirds, Y1, WY1] = runCondorModel();
 figure;
-plot(t, Ctotal, 'm-', 'LineWidth', 1.5); hold on;
-plot(t, Wtotal, 'g-', 'LineWidth', 1.5);
+plot(t, Ctotal, 'Color', '#052F73', 'LineWidth', 1.5); hold on;
+plot(t, Wtotal,'Color',  '#052f73', 'LineWidth', 1.5, 'LineStyle', '--');
 plot(t, Cadults, 'b', 'LineWidth', 1.2);
-plot(t, Wadults, 'k', 'LineWidth', 1.2);
-plot(t, TotalBirds, 'r', 'LineWidth', 1.8);
+plot(t, Wadults, '--b', 'LineWidth', 1.2);
+plot(t, TotalBirds, 'g', 'LineWidth', 1.8);
 
 yline(Captivecap,'--c', 'LineWidth', 2.5);
 yline(Wildcap,'--k', 'LineWidth', 2.5);
@@ -195,19 +207,19 @@ grid on;
 legend('Captive Total Pairs', 'Wild Total Pairs', 'Captive Adults Pairs', 'Wild Adults Pairs','TotalBirds Pairs','Captivecap', 'Wildcap','Location', 'northwest');
 xlabel('Years');
 ylabel('Number of Condor Pairs');
-title('Captive and Wild Condor Populations (Project 3)');
+title('Captive and Wild Condor Pair Populations (Project 3)');
 %%
 
 figure;
-plot(t, WY1, 'g-', 'LineWidth', 1.5); 
+plot(t, WY1, '--c', 'LineWidth', 1.5); 
 hold on;                                     % Keeps the green line visible
-plot(t, Y1, 'b-', 'LineWidth', 1.5); 
-yline(Captivecap, '--c', 'LineWidth', 2.5);
-yline(Wildcap, '--k', 'LineWidth', 2.5);
+plot(t, Y1, 'c', 'LineWidth', 1.5); 
+yline(Captivecap, '--k', 'LineWidth', 2.5);
+yline(Wildcap, '--r', 'LineWidth', 2.5);
 hold off;
 
 grid on;
-legend('Wild Juveniles', 'Captive Juveniles', 'Captivecap', 'Wildcap', 'Location', 'northwest');
+legend('Wild Juveniles Pairs', 'Captive Juveniles Pairs', 'Captivecap', 'Wildcap', 'Location', 'northwest');
 xlabel('Years');
 ylabel('Number of Condor Pairs');
-title('Captive and Wild Condor Populations (Project 3)');
+title('Captive and Wild Condor Pair Populations (Project 3)');
