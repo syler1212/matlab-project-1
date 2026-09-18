@@ -7,6 +7,9 @@ clear all;
 function [t, Wjuveniles, Wadults, Wtotal, Cjuveniles, Cadults, Ctotal, TotalBirds, Y1, WY1] = runCondorModel()
 % initialization of variables and Rates
 
+%set this to true to run project Part F scenario
+releaseAt5Years = false;
+
 CR =  1.8/2; % The Female birth Rate assuming double clutching /2 for no double clutching
 
 
@@ -46,6 +49,16 @@ IWMR = 0.138; % wild mortality rate for immature condors
 % 
 JCMR = 0.138; % captive juvenile mortality rate
 JWMR = 0.138; % wild juvenile mortaltiy rate
+
+%Part D and F
+%ACMR = 0.069; % captive adult mortality rate
+%AWMR = 0.069; % wild adult mortality rate
+% 
+%ICMR = 0.659; % captive mortality rate for immature condors
+%IWMR = 0.659; % wild mortality rate for immature condors
+% 
+%JCMR = 0.138; % captive juvenile mortality rate
+%JWMR = 0.138; % wild juvenile mortaltiy rate
 
 
 %survival rates
@@ -103,7 +116,7 @@ WA  = zeros(1, num_years);
 % WY5(1) = 20;
 % WY6(1) = 20;
 
-
+% uncomment for 2022 captive population starting condition
 Y0(1) = 44/2;
 Y1(1) = 39/2;
 Y2(1) = 7/2;
@@ -113,6 +126,9 @@ Y5(1) = 8/2;
 Y6(1) = 7/2;
 Y7(1) = 8/2;
 A(1) = 86/2;
+
+% uncomment for 1987 starting condition
+% A(1) = 22;
 
 for yr = 2: num_years + 1
     
@@ -173,7 +189,30 @@ for yr = 2: num_years + 1
         WY7(yr) = WY6(yr-1) * IWSR; 
         WY8(yr) = 0;        % end of juv years
         WA(yr) = WA(yr-1) * AWSR + WY7(yr-1) * IWSR;  % adults
-    
+
+    if yr == 6 && releaseAt5Years == true
+        % stop double clutching at 5 years
+        CR = CR/2
+        % release all captive the birds
+        WY0(yr) = WY0(yr) + Y0(yr);
+        WY1(yr) = WY1(yr) + Y1(yr);
+        WY2(yr) = WY2(yr) + Y2(yr);
+        WY3(yr) = WY3(yr) + Y3(yr);
+        WY4(yr) = WY4(yr) + Y4(yr);
+        WY5(yr) = WY5(yr) + Y5(yr);
+        WY6(yr) = WY6(yr) + Y6(yr);
+        WY7(yr) = WY7(yr) + Y7(yr);
+        WA(yr) = WA(yr) + A(yr);
+        Y0(yr) = 0;
+        Y1(yr) = 0; 
+        Y2(yr) = 0; 
+        Y3(yr) = 0; 
+        Y4(yr) = 0; 
+        Y5(yr) = 0; 
+        Y6(yr) = 0; 
+        Y7(yr) = 0;  
+        A(yr) = 0;
+    end
     
     end
     
