@@ -42,14 +42,14 @@ Rr = 0.8;     % the release rate of juvenile condors
 
 % 
 %Part B
-% ACMR = 0.069; % captive adult mortality rate
-% AWMR = 0.069; % wild adult mortality rate
-% % 
-% ICMR = 0.138; % captive mortality rate for immature condors
-% IWMR = 0.138; % wild mortality rate for immature condors
-% % 
-% JCMR = 0.138; % captive juvenile mortality rate
-% JWMR = 0.138; % wild juvenile mortaltiy rate
+ACMR = 0.069; % captive adult mortality rate
+AWMR = 0.069; % wild adult mortality rate
+% 
+ICMR = 0.138; % captive mortality rate for immature condors
+IWMR = 0.138; % wild mortality rate for immature condors
+% 
+JCMR = 0.138; % captive juvenile mortality rate
+JWMR = 0.138; % wild juvenile mortaltiy rate
 
 
 
@@ -80,48 +80,48 @@ Wildcap = 400/2;    % number of pairs of wild condors
 
 %data stored as condor pairs
 
-Y0 = zeros(1, num_years);
-Y1 = zeros(1, num_years);
-Y2 = zeros(1, num_years);
-Y3 = zeros(1, num_years);
-Y4 = zeros(1, num_years);
-Y5 = zeros(1, num_years);
-Y6 = zeros(1, num_years);
-Y7 = zeros(1, num_years);
-A  = zeros(1, num_years);
+Y0 = zeros(1, num_years + 1);
+Y1 = zeros(1, num_years + 1);
+Y2 = zeros(1, num_years + 1);
+Y3 = zeros(1, num_years + 1);
+Y4 = zeros(1, num_years + 1);
+Y5 = zeros(1, num_years + 1);
+Y6 = zeros(1, num_years + 1);
+Y7 = zeros(1, num_years + 1);
+A  = zeros(1, num_years + 1);
 
 
 
 
-WY0 = zeros(1, num_years);
-WY1 = zeros(1, num_years);
-WY2 = zeros(1, num_years);
-WY3 = zeros(1, num_years);
-WY4 = zeros(1, num_years);
-WY5 = zeros(1, num_years);
-WY6 = zeros(1, num_years);
-WY7 = zeros(1, num_years);
-WY8 = zeros(1, num_years);
-WA  = zeros(1, num_years);
+WY0 = zeros(1, num_years + 1);
+WY1 = zeros(1, num_years + 1);
+WY2 = zeros(1, num_years + 1);
+WY3 = zeros(1, num_years + 1);
+WY4 = zeros(1, num_years + 1);
+WY5 = zeros(1, num_years + 1);
+WY6 = zeros(1, num_years + 1);
+WY7 = zeros(1, num_years + 1);
+WY8 = zeros(1, num_years + 1);
+WA  = zeros(1, num_years + 1);
 
 
 % setting initial conditions
 
 %for 2022 data
 
-% Y0(1) = 44/2;
-% Y1(1) = 39/2;
-% Y2(1) = 45/12;
-% Y3(1) = 45/12;
-% Y4(1) = 45/12;
-% Y5(1) = 45/12;
-% Y6(1) = 45/12;
-% Y7(1) = 45/12;
-% A(1) = 86/2;
+Y0(1) = 44/2;
+Y1(1) = 39/2;
+Y2(1) = 45/12;
+Y3(1) = 45/12;
+Y4(1) = 45/12;
+Y5(1) = 45/12;
+Y6(1) = 45/12;
+Y7(1) = 45/12;
+A(1) = 86/2;
 
 
 % for 1987 data
-%A(1) = 22/2;
+% A(1) = 22/2;
 
 
 
@@ -201,8 +201,8 @@ Cadults    = (A) * 2;
 Wjuveniles = (WY1 + WY2 + WY3 + WY4 + WY5 + WY6 + WY7) * 2;
 Wadults    = (WA) * 2;
 
-Ctotal     = (Y0 + Cjuveniles + Cadults);
-Wtotal     = (WY0 + Wjuveniles + Wadults);
+Ctotal     = ((Y0 * 2) + Cjuveniles + Cadults);
+Wtotal     = ((WY0 * 2) + Wjuveniles + Wadults);
 
 
 TotalBirds = (Wtotal + Ctotal);
@@ -230,16 +230,16 @@ ylabel('Number of Condors');
 title('Captive and Wild Condor Populations (Project 3)');
 %%
 
-figure;
-plot(t, WY1, '--c', 'LineWidth', 1.5); 
-hold on;                                     % Keeps the green line visible
-plot(t, Y1, 'c', 'LineWidth', 1.5); 
-yline(Captivecap, '--k', 'LineWidth', 2.5);
-yline(Wildcap, '--r', 'LineWidth', 2.5);
-hold off;
-
-grid on;
-legend('Wild Juveniles', 'Captive Juveniles', 'Captivecap', 'Wildcap', 'Location', 'northwest');
-xlabel('Years');
-ylabel('Number of Condors');
-title('Captive and Wild Condor Populations (Project 3)');
+% figure;
+% plot(t, WY1, '--c', 'LineWidth', 1.5); 
+% hold on;                                     % Keeps the green line visible
+% plot(t, Y1, 'c', 'LineWidth', 1.5); 
+% yline(Captivecap, '--k', 'LineWidth', 2.5);
+% yline(Wildcap, '--r', 'LineWidth', 2.5);
+% hold off;
+% 
+% grid on;
+% legend('Wild Juveniles', 'Captive Juveniles', 'Captivecap', 'Wildcap', 'Location', 'northwest');
+% xlabel('Years');
+% ylabel('Number of Condors');
+% title('Captive and Wild Condor Populations (Project 3)');
