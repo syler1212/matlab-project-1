@@ -241,5 +241,5 @@ hold off;
 grid on;
 legend('Wild Juveniles', 'Captive Juveniles', 'Captivecap', 'Wildcap', 'Location', 'northwest');
 xlabel('Years');
-ylabel('Number of Condor');
+ylabel('Number of Condors');
 title('Captive and Wild Condor Populations (Project 3)');
