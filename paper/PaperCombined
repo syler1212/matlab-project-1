@@ -146,6 +146,8 @@ Informed by empirical field data on large raptors \cite{bustamante1996}, first-y
     \label{fig:system_and_field}
 \end{figure}
 
+The extremely high mortality rate for the first year of life causes a significantly lower growth rate as the majority of birds fail to make it to their second year of life. This also reduces the number of birds that make it to adulthood and can reproduce. The growth rate cannot keep up with the high death rate, and so the population declines. 
+
 \subsection{Scenario D: High Juvenile, Moderate Immature, and Low Adult Mortality}
 This scenario pairs high first-year mortality ($d_1 = 0.659$) with moderate immature losses ($d_I = 0.138$) and low adult mortality ($d_A = 0.069$).
 
@@ -158,9 +160,10 @@ This scenario pairs high first-year mortality ($d_1 = 0.659$) with moderate imma
     \label{fig:system_and_field}
 \end{figure}
 
+This scenario produces similar results to C, where high mortality rates reduce the number of birds that reach adulthood and cause the overall population to decline. Here we see even sharper decline with the higher immature mortality rate, and the number of condors slowly tending towards zero as time progresses. 
+
 \subsection{Scenario E: High Juvenile Mortality with Balanced Post-Year-1 Rates}
 First-year mortality is held at $d_1 = 0.659$, while subsequent age classes share an intermediate mortality rate of $d_I = d_A = 0.099$.
-
 
 \begin{figure}[H]
     \centering
@@ -170,6 +173,8 @@ First-year mortality is held at $d_1 = 0.659$, while subsequent age classes shar
     \caption{50-year projection under high juvenile mortality with balanced subsequent rates ($d_1 = 0.659, d_I = d_A = 0.099$). Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
     \label{fig:system_and_field}
 \end{figure}
+
+In this scenario we see the lowest overall populations with steady decline towards an ending wild population of 15.6. Notably, this is the highest adult mortality rate tested, demonstrating the importance of the adult condor population in maintaining population levels. As in previous scenarios with high mortality rates, the low final wild populations show that these mortality rates may not be accurate to real rates. 
 
 \subsection{Scenario F: Five-Year Double-Clutching Intervention and Full Release}
 Using the mortality parameters of Scenario D ($d_1 = 0.659, d_I = 0.138, d_A = 0.069$), double-clutching is terminated after Year 5, and all remaining captive individuals are permanently released into the wild.
@@ -184,6 +189,23 @@ Using the mortality parameters of Scenario D ($d_1 = 0.659, d_I = 0.138, d_A = 0
     \caption{Trajectory comparison between continuous captive management and complete release following Year 5 under Scenario D mortality. Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
     \label{fig:system_and_field}
 \end{figure}
+
+With high mortality rates, the already low population declines very rapidly without help from captive breeding programs. This model shows that in cases with high mortality rates, the influx of captive condors is vital to maintaining wild populations, even if these populations still see decline as in previous scenarios.
+
+\subsection{Scenario G: Differing Mortality Rates Between Captive and Wild Populations}
+
+
+While previous simulations assume uniform mortality rates between captive and wild populations, this is likely not accurate to real ecosystems, where wild birds face threats such as predation, illness, and exposure to natural disasters that may increase mortality rates above those of captive birds. We were intersted in looking at whether a wild population with very high mortality rates would still benefit from a repopulation program. We assume parameters $d_1 = 0.659, d_I = 0.138, d_A = 0.099$ for wild birds, and $d_1 = d_I =  d_A = 0.086$ for captive birds. 
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{Fig_comparison_1987.png}
+    \caption{Condor populations, using 1987 initial conditions.}
+    \label{fig:scenario_f}
+\end{figure}
+
+Despite high mortality rates for captive birds, there is still a general increase in wild populations over time as a result of the influx of captive birds. In this situation, the low captive mortality rates boost the wild population and allow it to grow steadily, in constrast to previous simulations where these high mortality rates would have cause significant population decline. This illustrates the value of a repopulation program in increasing wild populations, even if those populations suffer from large numbers of deaths. 
 
 
 \section{Conclusions}
