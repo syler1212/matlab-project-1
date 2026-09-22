@@ -227,7 +227,7 @@ grid on;
 legend('Captive Total', 'Wild Total', 'Captive Adults', 'Wild Adults','TotalBirds','Captivecap', 'Wildcap','Location', 'northwest');
 xlabel('Years');
 ylabel('Number of Condor Pairs');
-title('Captive and Wild Condor Pair Populations (Project 3)');
+title('Captive and Wild Condor Populations (Project 3)');
 %%
 
 figure;
