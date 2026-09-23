@@ -112,6 +112,11 @@ Y6(1) = 45/6;
 Y7(1) = 45/6;
 A(1) = 86;
 
+% initial conditions derived from 1987 population data
+% nps.gov/pinn/learn/nature/condor-history.htm
+
+%A(1) = 22;
+
 % Actual wild population is over our assumed carrying capacity, so start
 % our simulation assuming no wild Condors.
 for yr = 2: num_years + 1
