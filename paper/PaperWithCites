@@ -1,0 +1,254 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{titlesec}
+\usepackage{float}
+
+% Full-width line below every section title
+\titleformat{\section}
+  {\normalfont\Large\bfseries}
+  {\thesection}{1em}
+  {}
+  [{\titlerule[0.8pt]}]
+
+% Embedded Bibliography
+\begin{filecontents*}{\jobname.bib}
+@book{shiflet2014,
+  author    = {Angela B. Shiflet and George W. Shiflet},
+  title     = {Introduction to Computational Science: Modeling and Simulation for the Sciences},
+  edition   = {2nd},
+  publisher = {Princeton University Press},
+  year      = {2014},
+  address   = {Princeton, NJ}
+}
+
+@article{bustamante1996,
+  author  = {Bustamante, Javier},
+  title   = {Population Viability Analysis of Captive and Released Bearded Vultures},
+  journal = {Conservation Biology},
+  volume  = {10},
+  number  = {3},
+  pages   = {822--831},
+  year    = {1996}
+}
+
+@techreport{usfws2024,
+  author      = {{U.S. Fish and Wildlife Service}},
+  title       = {California Condor Recovery Program: 2024 Annual Population Status Report},
+  institution = {U.S. Fish and Wildlife Service, Pacific Southwest Region},
+  address     = {Sacramento, CA},
+  year        = {2024}
+}
+
+@book{snyder2000,
+  author    = {Noel F. R. Snyder and Helen A. Snyder},
+  title     = {The California Condor: A Saga of Natural History and Conservation},
+  publisher = {Academic Press},
+  address   = {San Diego, CA},
+  year      = {2000}
+}
+
+@article{meretsky2000,
+  author  = {V. J. Meretsky and N. F. R. Snyder and S. R. Beissinger and D. A. Clendenen and J. W. Wiley},
+  title   = {Demography of the California Condor: Implications for Reintroduction and Recovery},
+  journal = {Conservation Biology},
+  volume  = {14},
+  number  = {4},
+  pages   = {957--967},
+  year    = {2000}
+}
+\end{filecontents*}
+
+\title{Modeling and Simulation: Captive and Wild California Condor Populations}
+\author{}
+\date{September 2026}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+The California condor is a large scavenger native to the southwestern United States, identified by its $9\frac{1}{2}$-foot wingspan and bald pink head. Scavenging birds such as these play a critical part in their native ecosystems, preventing the spread of disease by disposing of carrion before deadly bacteria are exposed to the broader environment. Despite thriving in North America for thousands of years, the introduction of the insecticide DDT in the $20^{\text{th}}$ century caused their numbers to plummet into the tens by the 1980s \cite{snyder2000}. To prevent outright extinction, all 22 of the estimated birds remaining in the wild were captured and placed into captive breeding programs, where their numbers gradually recovered enough to permit managed reintroduction into their native mountain ranges \cite{meretsky2000, snyder2000}.
+
+In the wild, California condors breed slowly and deliberately. After reaching sexual maturity at around eight years of age, a mating pair produces a single egg that is incubated for approximately six months. After hatching, the chick remains dependent on its parents for another year. Even after fledgling independence, wild condors face severe natural and anthropogenic threats, such as lead poisoning from ammunition, leading to substantial mortality\cite{meretsky2000}.
+
+In captivity, researchers accelerate the productivity of mating pairs through an intervention called \emph{double-clutching}. During this process, the first egg laid by a pair is removed and artificially incubated by researchers. Lacking viable offspring in the nest, the mating pair frequently lays a replacement egg, effectively doubling annual reproduction. Currently, as a result of repopulation efforts the total number of California condors in the wild is estimated to be 369, according to a 2024 report by the U.S. Fish and Wildlife Service \cite{usfws2024}, a significant increase from 1987.
+
+\section{Methodology}
+
+\subsection{System Dynamics Overview}
+The model tracks population distributions across discrete age cohorts using stock-and-flow dynamics \cite{shiflet2014}. Stock variables represent captive and wild condor counts at each year of age. The primary flow between chronological cohorts is maturation, constrained by cohort-specific mortality rates. Juvenile release flows transfer birds aged 1 year from captivity to wild stocks, governed by captive carrying capacities and annual transfer policies.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Model_diagram.png}
+    \caption{Stock-and-flow architecture linking captive and wild age cohorts, reproduction, and reintroduction pathways.}
+    \label{fig:model_diagram}
+\end{figure}
+
+\subsection{Numerical Integration Methods}
+The continuous demographic flows are approximated using the Forward Euler numerical integration method with an annual discrete step size of $\Delta t = 1\text{ yr}$ \cite{shiflet2014}. For any cohort state variable governed by $\frac{dY}{dt} = \text{Inflow} - \text{Outflow}$, the value at the subsequent annual increment is:
+\begin{equation}
+Y(t + \Delta t) = Y(t) + \Delta t \left(\text{Inflow}(t) - \text{Outflow}(t)\right)
+\end{equation}
+Because biological cohorts advance between single-year age brackets annually, an integer time step of $\Delta t = 1$ ensures individual cohorts progress systematically across successive stages without numerical dispersion.
+
+\subsection{Captive Subpopulation Dynamics}
+Captive condor pairs operating under double-clutching achieve a pair fecundity rate of $f_{\text{cap}} = 1.8\text{ yr}^{-1}$ (or $0.9\text{ yr}^{-1}$ without double-clutching), corresponding to an individual adult reproduction rate of $m_{\text{cap}} = 0.9\text{ yr}^{-1}$ assuming an equal 1:1 sex ratio. Captive condors reach reproductive maturity at age 7 ($Y_{A,\text{cap}}$).
+
+The balance equations governing captive age cohorts are:
+\begin{align}
+\frac{dY_{0,\text{cap}}}{dt} &= m_{\text{cap}} Y_{A,\text{cap}}(t) - Y_{0,\text{cap}}(t) \\
+\frac{dY_{1,\text{cap}}}{dt} &= (1 - d_0) Y_{0,\text{cap}}(t) - Y_{1,\text{cap}}(t) \\
+\frac{dY_{2,\text{cap}}}{dt} &= (1 - r(t))(1 - d_1) Y_{1,\text{cap}}(t) - Y_{2,\text{cap}}(t) \\
+\frac{dY_{k,\text{cap}}}{dt} &= (1 - d_I) Y_{k-1,\text{cap}}(t) - Y_{k,\text{cap}}(t) \quad \text{for } k = 3, 4, 5, 6 \\
+\frac{dY_{A,\text{cap}}}{dt} &= (1 - d_I) Y_{6,\text{cap}}(t) - d_A Y_{A,\text{cap}}(t)
+\end{align}
+
+The release fraction $r(t)$ dictates juvenile reintroduction into the wild. By default, $80\%$ of 1-year-old captive juveniles are transferred each year. If total captive occupancy exceeds the facility carrying capacity of 150 birds, all surviving Year 1 juveniles are released:
+\begin{equation}
+r(t) = \begin{cases} 
+0.80, & \text{if } N_{\text{cap}}(t) \le 150 \\
+1.00, & \text{if } N_{\text{cap}}(t) > 150 
+\end{cases}
+\end{equation}
+where total captive population is $N_{\text{cap}}(t) = \sum_{k=0}^{6} Y_{k,\text{cap}}(t) + Y_{A,\text{cap}}(t)$.
+
+\subsection{Wild Subpopulation Dynamics and Reintroduction}
+Wild condors exhibit a lower base fecundity of $f_{\text{wild}} = 0.3729\text{ yr}^{-1}$ per pair ($m_{\text{wild}} = 0.18645\text{ yr}^{-1}$ per adult) and attain reproductive maturity at age 8 ($Y_{A,\text{wild}}$). Wild reproduction is density-dependent, constrained by an environmental carrying capacity of $K_{\text{wild}} = 400$ birds:
+\begin{align}
+\frac{dY_{0,\text{wild}}}{dt} &= m_{\text{wild}} Y_{A,\text{wild}}(t)\left(1 - \frac{N_{\text{wild}}(t)}{400}\right) - Y_{0,\text{wild}}(t) \\
+\frac{dY_{1,\text{wild}}}{dt} &= (1 - d_0) Y_{0,\text{wild}}(t) - Y_{1,\text{wild}}(t)
+\end{align}
+where $N_{\text{wild}}(t) = \sum_{k=0}^{7} Y_{k,\text{wild}}(t) + Y_{A,\text{wild}}(t)$.
+
+The wild 2-year-old cohort ($Y_{2,\text{wild}}$) receives both native Year 1 survivors and translocated captive juveniles:
+\begin{align}
+\frac{dY_{2,\text{wild}}}{dt} &= (1 - d_1) Y_{1,\text{wild}}(t) + r(t)(1 - d_1) Y_{1,\text{cap}}(t) - Y_{2,\text{wild}}(t) \\
+\frac{dY_{k,\text{wild}}}{dt} &= (1 - d_I) Y_{k-1,\text{wild}}(t) - Y_{k,\text{wild}}(t) \quad \text{for } k = 3, 4, 5, 6, 7 \\
+\frac{dY_{A,\text{wild}}}{dt} &= (1 - d_I) Y_{7,\text{wild}}(t) - d_A Y_{A,\text{wild}}(t)
+\end{align}
+
+\subsection{Assumptions and Initial Conditions}
+The goal of our model is to represent changing condor populations in captivity and in the wild under varying assumptions. The model was built using MATLAB and follows a constrained population growth model. We study two possible initial populations of birds, that from 1987 and from 2022. The 1980's population is assumed to be 22 captive adults, the estimated total number of wild condors at the time the repopulation program was implemented \cite{snyder2000}. The 2022 population includes 44 year zero, 39 year one, 7 year two, 8 year three, 7 year four, 8 year five, 7 year six, 8 year seven, and 86 adult birds. We assume equal male and female populations, that all birds mate and attempt reproduction, and that birds reach sexual maturity at eight years in the wild and seven years in captivity. We also assume fecundity rates of 1.8 and 0.9 in captivity with and without double clutching respectively, and 0.3729 in the wild. To stimulate wild populations, 80\% of captive condors aged one year are released every year, however if the number of captive condors exceeds the carrying capacity of 150, all juvenile birds are released into the wild. The carrying capacity for wild condors is set to be 400 birds. Mortality rates are varied between models, as a result of the difficulty of their estimation. We assume uniform mortality rates between wild and captive birds, and range mortality from low to high.
+
+\section{Results and Analysis}
+
+\subsection{Scenario A: Uniform Low Mortality Across All Cohorts}
+In this baseline scenario, Year 1 juveniles, immatures, and adults experience a low, uniform annual mortality rate of $d_1 = d_I = d_A = 0.086$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{Fig_a_1987.png}
+    \hfill
+    \includegraphics[width=0.48\textwidth]{Fig_a_2022.png}
+    \caption{Population trajectories over 50 years under baseline uniform mortality ($d_1 = d_I = d_A = 0.086$). Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
+    \label{fig:system_and_field}
+\end{figure}
+
+Despite the low initial population, the higher captive birth rate as a result of double clutching causes the wild population to increase steadily over fifty years. The number of pairs predicted by the model in 2022 is 165.64, for an estimated total wild population of 331.28. This generally agrees with current estimates for wild populations, though may suggest that true mortality rates are even lower, or differ more significantly between wild and captive birds. 
+\par
+In contrast, the higher initial populations seen in 2022 cause populations to very quickly exceed the carrying capacity, as seen in figure 2 (right). This indicates that current populations may be such that a repopulation program would not benefit wild birds, and may even cause populations to decline.
+
+\subsection{Scenario B: Moderate Juvenile/Immature and Low Adult Mortality}
+Year 1 and immature cohorts experience an elevated mortality rate of $d_1 = d_I = 0.138$, while reproductive adults experience $d_A = 0.069$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{Fig_b_1987.png}
+    \hfill
+    \includegraphics[width=0.48\textwidth]{Fig_b_2022.png}
+    \caption{Population projection with elevated juvenile/immature mortality ($d_1 = d_I = 0.138, d_A = 0.069$). Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
+    \label{fig:system_and_field_b}
+\end{figure}
+
+While mortality rates for juvenile and immature birds have been elevated, there is still a steady increase in populations over time. While increased mortality may lead to slow population grown in comparison to that seen in A, they are not sufficiently high to cause the population to struggle to sustain itself.
+\par
+The simulation run with 2022 population conditions also produce similar results to those seen in A, however with less oscillations later in time. This suggests that these slightly increased mortality balance birth rates and lead to near zero population growth at some point.
+
+\subsection{Scenario C: High Juvenile Mortality (Bearded Vulture Baseline)}
+Informed by empirical field data on large raptors \cite{bustamante1996}, first-year mortality is elevated to $d_1 = 0.659$ ($65.9\%$), while immature and adult mortalities remain at $d_I = d_A = 0.086$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{Fig_c_1987.png}
+    \hfill
+    \includegraphics[width=0.48\textwidth]{Fig_c_2022.png}
+    \caption{50-year projection under high first-year mortality ($d_1 = 0.659, d_I = d_A = 0.086$). Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
+    \label{fig:system_and_field_c}
+\end{figure}
+
+The extremely high mortality rate for the first year of life causes a significantly lower growth rate as the majority of birds fail to make it to their second year of life. This also reduces the number of birds that make it to adulthood and can reproduce. The growth rate cannot keep up with the high death rate, and so the population declines.
+\par
+Even with the higher populations from 2022, juvenile mortality rates are such that the population is unable to sustain itself, leading to a steady population decline.
+
+\subsection{Scenario D: High Juvenile, Moderate Immature, and Low Adult Mortality}
+This scenario pairs high first-year mortality ($d_1 = 0.659$) with moderate immature losses ($d_I = 0.138$) and low adult mortality ($d_A = 0.069$).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{Fig_d_1987.png}
+    \hfill
+    \includegraphics[width=0.48\textwidth]{Fig_d_2022.png}
+    \caption{Population projection under composite demographic stress ($d_1 = 0.659, d_I = 0.138, d_A = 0.069$). Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
+    \label{fig:system_and_field_d}
+\end{figure}
+
+This scenario produces similar results to C, where high mortality rates reduce the number of birds that reach adulthood and cause the overall population to decline. Here we see even sharper decline with the higher immature mortality rate, and the number of condors slowly tending towards zero as time progresses.
+\par
+With 2022 populations, the behavior is echoed as too few juvenile birds reach adulthood to produce hatchlings at a rate high enough to replace the high initial population.
+
+\subsection{Scenario E: High Juvenile Mortality with Balanced Post-Year-1 Rates}
+First-year mortality is held at $d_1 = 0.659$, while subsequent age classes share an intermediate mortality rate of $d_I = d_A = 0.099$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{Fig_e_1987.png}
+    \hfill
+    \includegraphics[width=0.48\textwidth]{Fig_e_2022.png}
+    \caption{50-year projection under high juvenile mortality with balanced subsequent rates ($d_1 = 0.659, d_I = d_A = 0.099$). Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
+    \label{fig:system_and_field_e}
+\end{figure}
+
+In this scenario we see the lowest overall populations with steady decline towards an ending wild population of 15.6. Notably, this is the highest adult mortality rate tested, demonstrating the importance of the adult condor population in maintaining population levels. As in previous scenarios with high mortality rates, the low final wild populations show that these mortality rates may not be accurate to real rates.
+
+\subsection{Scenario F: Five-Year Double-Clutching Intervention and Full Release}
+Using the mortality parameters of Scenario D ($d_1 = 0.659, d_I = 0.138, d_A = 0.069$), double-clutching is terminated after Year 5, and all remaining captive individuals are permanently released into the wild.
+\par
+We also see the sharpest population decline for 2022 populations, as the two age groups most important for reproduction have relatively high mortality rates.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{Fig_f_1987.png}
+    \hfill
+    \includegraphics[width=0.48\textwidth]{Fig_f_2022.png}
+    \caption{Trajectory comparison between continuous captive management and complete release following Year 5 under Scenario D mortality. Left: Initial Conditions of 22 Adult condors. Right: Initial conditions of the 2022 condor population.}
+    \label{fig:system_and_field_f}
+\end{figure}
+
+With high mortality rates, the already low population declines very rapidly without help from captive breeding programs. This model shows that in cases with high mortality rates, the influx of captive condors is vital to maintaining wild populations, even if these populations still see decline as in previous scenarios. This is true for both sets of initial conditions where without the higher birth rates of captive birds, nothing offsets the high mortality rates of wild birds and leads to rapid population decline.
+
+\subsection{Scenario G: Differing Mortality Rates Between Captive and Wild Populations}
+While previous simulations assume uniform mortality rates between captive and wild populations, this is likely not accurate to real ecosystems, where wild birds face threats such as predation, illness, and exposure to natural disasters that may increase mortality rates above those of captive birds. We were interested in looking at whether a wild population with very high mortality rates would still benefit from a repopulation program. We assume parameters $d_1 = 0.659, d_I = 0.138, d_A = 0.099$ for wild birds, and $d_1 = d_I = d_A = 0.086$ for captive birds.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{Fig_comparison_1987.png}
+    \caption{Condor populations, using 1987 initial conditions.}
+    \label{fig:scenario_g}
+\end{figure}
+
+Despite high mortality rates for wild birds, there is still a general increase in wild populations over time as a result of the influx of captive birds. In this situation, the low captive mortality rates boost the wild population and allow it to grow steadily, in contrast to previous simulations where these high mortality rates would have caused significant population decline. This illustrates the value of a repopulation program in increasing wild populations, even if those populations suffer from large numbers of deaths.
+
+\section{Conclusions}
+The comparative simulations highlight the sensitivity of wild California condor recovery to juvenile survival and continued artificial management:
+\begin{itemize}
+    \item \textbf{Double-clutching leverage:} Captive double-clutching effectively counterbalances the delayed sexual maturity (7 to 8 years) and low natural clutch sizes of the species, providing a continuous influx of juveniles to wild habitats.
+    \item \textbf{Mortality bottlenecks:} Elevated first-year mortality ($d_1 = 0.659$) severely curtails self-sustaining population growth in the wild, indicating that wild populations remain dependent on captive supplementation until adult breeding stocks reach critical mass.
+    \item \textbf{Cessation risks:} Early termination of captive breeding programs (Scenario F) exposes wild populations to rapid decline if wild mortality remains high, demonstrating the necessity of long-term demographic support until ecological threats, such as lead toxicosis, are mitigated.
+    \item \textbf{Mortality Rates:} Given population data from 2024 \cite{usfws2024}, it may be assumed that mortality rates are relatively low, especially in comparison to the bearded vulture \cite{bustamante1996}. Likely, mortality rates are even lower than the lowest estimates applied to this model, however determining precise estimates for mortality rates by age group is beyond the scope of the paper.
+\end{itemize}
+
+\bibliographystyle{plain}
+\bibliography{\jobname}
+
+\end{document}
