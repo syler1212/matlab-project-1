@@ -134,6 +134,10 @@ Year 1 and immature cohorts experience an elevated mortality rate of $d_1 = d_I 
     \label{fig:system_and_field}
 \end{figure}
 
+While mortality rates for juvenile and immature birds have been eleveated, there is still a steady increase in populations over time. While increased mortality may lead to slow population grown in comparison to that seen in A, they are not sufficiently high to cause the population to struggle to sustain itself. 
+\\
+The simulation run with 2022 population conditions also produce similar results to those seen in A, however with less oscilations later in time. This suggests that these slightly increased mortality balance birth rates and lead to near zero population growth at some point. 
+
 \subsection{Scenario C: High Juvenile Mortality (Bearded Vulture Baseline)}
 Informed by empirical field data on large raptors \cite{bustamante1996}, first-year mortality is elevated to $d_1 = 0.659$ ($65.9\%$), while immature and adult mortalities remain at $d_I = d_A = 0.086$.
 
@@ -147,6 +151,8 @@ Informed by empirical field data on large raptors \cite{bustamante1996}, first-y
 \end{figure}
 
 The extremely high mortality rate for the first year of life causes a significantly lower growth rate as the majority of birds fail to make it to their second year of life. This also reduces the number of birds that make it to adulthood and can reproduce. The growth rate cannot keep up with the high death rate, and so the population declines. 
+\\
+Even with the higher populations from 2022, juvenile mortality rates are such that the population is unable to sustain itself, leading to a steady population decline. 
 
 \subsection{Scenario D: High Juvenile, Moderate Immature, and Low Adult Mortality}
 This scenario pairs high first-year mortality ($d_1 = 0.659$) with moderate immature losses ($d_I = 0.138$) and low adult mortality ($d_A = 0.069$).
@@ -161,6 +167,8 @@ This scenario pairs high first-year mortality ($d_1 = 0.659$) with moderate imma
 \end{figure}
 
 This scenario produces similar results to C, where high mortality rates reduce the number of birds that reach adulthood and cause the overall population to decline. Here we see even sharper decline with the higher immature mortality rate, and the number of condors slowly tending towards zero as time progresses. 
+\\
+With 2022 populations, the behavior is echoed as too few juvenile birds reach adulthood to produce hatchlings at a rate high enough to replace the high initial population. 
 
 \subsection{Scenario E: High Juvenile Mortality with Balanced Post-Year-1 Rates}
 First-year mortality is held at $d_1 = 0.659$, while subsequent age classes share an intermediate mortality rate of $d_I = d_A = 0.099$.
@@ -178,6 +186,8 @@ In this scenario we see the lowest overall populations with steady decline towar
 
 \subsection{Scenario F: Five-Year Double-Clutching Intervention and Full Release}
 Using the mortality parameters of Scenario D ($d_1 = 0.659, d_I = 0.138, d_A = 0.069$), double-clutching is terminated after Year 5, and all remaining captive individuals are permanently released into the wild.
+\\
+We also see the sharpest population decline for 2022 populations, as the two age groups most important for reproduction have relatively high mortality rates.
 
 
 
@@ -190,13 +200,12 @@ Using the mortality parameters of Scenario D ($d_1 = 0.659, d_I = 0.138, d_A = 0
     \label{fig:system_and_field}
 \end{figure}
 
-With high mortality rates, the already low population declines very rapidly without help from captive breeding programs. This model shows that in cases with high mortality rates, the influx of captive condors is vital to maintaining wild populations, even if these populations still see decline as in previous scenarios.
+With high mortality rates, the already low population declines very rapidly without help from captive breeding programs. This model shows that in cases with high mortality rates, the influx of captive condors is vital to maintaining wild populations, even if these populations still see decline as in previous scenarios. This is true for both sets of initial conditions where without the higher birth rates of captive birds, nothing offsets the high mortality rates of wild birds and leads to rapid population decline. 
 
 \subsection{Scenario G: Differing Mortality Rates Between Captive and Wild Populations}
 
 
 While previous simulations assume uniform mortality rates between captive and wild populations, this is likely not accurate to real ecosystems, where wild birds face threats such as predation, illness, and exposure to natural disasters that may increase mortality rates above those of captive birds. We were intersted in looking at whether a wild population with very high mortality rates would still benefit from a repopulation program. We assume parameters $d_1 = 0.659, d_I = 0.138, d_A = 0.099$ for wild birds, and $d_1 = d_I =  d_A = 0.086$ for captive birds. 
-
 
 \begin{figure}[H]
     \centering
@@ -207,13 +216,13 @@ While previous simulations assume uniform mortality rates between captive and wi
 
 Despite high mortality rates for captive birds, there is still a general increase in wild populations over time as a result of the influx of captive birds. In this situation, the low captive mortality rates boost the wild population and allow it to grow steadily, in constrast to previous simulations where these high mortality rates would have cause significant population decline. This illustrates the value of a repopulation program in increasing wild populations, even if those populations suffer from large numbers of deaths. 
 
-
 \section{Conclusions}
 The comparative simulations highlight the sensitivity of wild California condor recovery to juvenile survival and continued artificial management:
 \begin{itemize}
     \item \textbf{Double-clutching leverage:} Captive double-clutching effectively counterbalances the delayed sexual maturity (7–8 years) and low natural clutch sizes of the species, providing a continuous influx of juveniles to wild habitats.
     \item \textbf{Mortality bottlenecks:} Elevated first-year mortality ($d_1 = 0.659$) severely curtails self-sustaining population growth in the wild, indicating that wild populations remain dependent on captive supplementation until adult breeding stocks reach critical mass.
     \item \textbf{Cessation risks:} Early termination of captive breeding programs (Scenario F) exposes wild populations to rapid decline if wild mortality remains high, demonstrating the necessity of long-term demographic support until ecological threats (e.g., lead toxicosis) are mitigated.
+    \item \textbf{Mortality Rates:} Given population data from 2024, it may be assumed that mortality rates are relatively low, especially in comparison to the bearded vulture. Likely, mortality rates are even lower than the lowest estimates applied to this model, however determining precise estimates for mortality rates by age group is beyond the scope of the paper.
 \end{itemize}
 
 \bibliographystyle{plain}
